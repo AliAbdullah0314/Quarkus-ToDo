@@ -16,9 +16,9 @@
       document.getElementById("signin");
       function welcome() 
       {
-        // do thingies
-        console.log("entered method")
-        window.location = "index.html";
+
+        console.log("redirecting")
+        location.href="index.html";
         return false;
         
       }
@@ -194,7 +194,7 @@
         Remember me
       </label>
     </div>
-    <button id="signin" class="btn btn-primary w-100 py-2" onclick="welcome()"> Sign in</button>
+    <button id="signin" class="btn btn-primary w-100 py-2" onclick="return welcome()"> Sign in</button>
     <p class="mt-5 mb-3 text-body-secondary">© 2017–2023</p>
   </form>
 </main>
