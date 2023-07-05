@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class PersonDto {
         
     public String personName;
+    public String password;
     public Integer id;
     public String dateOfBirth;
     public String cnicNumber;

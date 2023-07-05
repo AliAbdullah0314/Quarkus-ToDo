@@ -14,8 +14,8 @@ public class Common {
             // Convert JSON string from file to Object
         try {
             String data = mapper.writeValueAsString(objects);
-            FileWriter fileWriter = new FileWriter("src/main/resources/" + fileName + ".json");
-            fileWriter.write(data);
+            FileWriter fileWriter = new FileWriter("Quarkus/Installed_File/src/main/resources/" + fileName + ".json");
+            fileWriter.append(data);
             fileWriter.close();
         } catch (Exception e) {
             // TODO Auto-generated catch block

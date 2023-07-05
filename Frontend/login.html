@@ -17,7 +17,11 @@
       function welcome() 
       {
 
-        console.log("redirecting")
+        var email = document.getElementById("floatingInput").value;
+        var password = document.getElementById("floatingPassword").value;
+
+        
+        console.log("redirecting "+email);
         location.href="index.html";
         return false;
         

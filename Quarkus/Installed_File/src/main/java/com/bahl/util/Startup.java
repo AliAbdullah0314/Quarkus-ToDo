@@ -55,6 +55,9 @@ public class Startup {
             int exitcode = 0;
 
             List<PersonDto> personDtos = getPersonDtos("PEOPLES"); // loads persons on startup , returns a list of that
+            //System.out.println(getPersonDtos("PEOPLES"));
+            // System.out.println(personDtos.get(1));
+            // System.out.println(personDtos.get(2));
             Constant.persons = personDtos;                                                                // specific type
            
              
@@ -108,17 +111,22 @@ public class Startup {
 
         public List<PersonDto> getPersonDtos(String fileName) {
             List<PersonDto> listOfDtos = new ArrayList<PersonDto>();
-            try (FileReader reader = new FileReader("src/main/resources/" + fileName + ".json")) {
-
+            try (FileReader reader = new FileReader("Quarkus/Installed_File/src/main/resources/" + fileName + ".json")) {
+//Quarkus/Installed_File/src/main/resources/PEOPLES.json
+///workspaces/Quarkus-ToDo/Quarkus/Installed_File/src/main/resources/PEOPLES.json
                 ObjectMapper mapper = new ObjectMapper();
                 // Convert JSON string from file to Object
 
                 listOfDtos = mapper.readValue(reader,
                         new TypeReference<List<PersonDto>>() {
                         });
+                //System.out.println("Within function: "+listOfDtos);
 
                 return listOfDtos;
             } catch (Exception e) {
+
+                //System.out.println("Catch Within function: "+ e);
+
 
                 return listOfDtos;
             }
