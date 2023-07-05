@@ -25,11 +25,20 @@ public class MainResourcePerson {
 
     static int personId = 1;
 
+    
+
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String welcome() {
+        setPersonId();
         return "Welcome to the ToDoList";
         // return Response.ok(persons).build();
+    }
+
+    public void setPersonId()
+    {
+        int length = numPersons();
+        personId = Constant.persons.get(length-1).id + 1;
     }
 
 
@@ -85,18 +94,39 @@ public class MainResourcePerson {
     @DELETE
     @Path("/deletepersons/{id}")
     public Response deletePerson(@PathParam("id") int id) {
-        PersonDto personToDelete = Constant.persons.get(id - 1);
-        boolean removed = false;
-        System.out.println("Entered del method");
-        if (personToDelete.status){
-            removed = Constant.persons.remove(personToDelete);
-        }
+        //System.out.println("Entered del method");
+        if(findById(id)!=-1)
+        {
+            PersonDto personToDelete = Constant.persons.get(findById(id));
+            boolean removed = false;
+            
+            if (personToDelete.status)
+            {
+                removed = Constant.persons.remove(personToDelete);
+            }
 
-        if(removed){
-            return Response.ok().build();
+            if(removed)
+            {
+                return Response.ok().build();
+            }
         }
+        
         return Response.status(Response.Status.BAD_REQUEST).build();
        
+    }
+
+    public int findById(int id)
+    {
+        int length = numPersons();
+        for(int i = 0; i< length; i++)
+        {
+            if(Constant.persons.get(i).id == id)
+            {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     // TASKS START HERE
