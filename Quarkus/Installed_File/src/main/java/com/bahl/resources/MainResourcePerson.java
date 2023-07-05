@@ -23,6 +23,8 @@ import jakarta.ws.rs.core.Response;
 @Path("/to-do-list")
 public class MainResourcePerson {
 
+    static int personId = 1;
+
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String welcome() {
@@ -67,8 +69,10 @@ public class MainResourcePerson {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addPerson(PersonDto newPerson) {
-        newPerson.id = Constant.persons.size() + 1; // the id is related to the size, first Constant.persons id will be
+        //newPerson.id = Constant.persons.size() + 1; // the id is related to the size, first Constant.persons id will be
                                                     // 1 and so on
+        newPerson.id = personId;
+        personId++;
         newPerson.status = true;
         Constant.persons.add(newPerson);
         List<Object> objectListPersons = new ArrayList<>(Constant.persons);
@@ -89,7 +93,7 @@ public class MainResourcePerson {
         }
 
         if(removed){
-            return Response.noContent().build();
+            return Response.ok().build();
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
        
