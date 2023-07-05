@@ -10,7 +10,7 @@ public class PersonDto {
     public Integer id;
     public String dateOfBirth;
     public String cnicNumber;
-    public Boolean status;
+    public Boolean status; 
     //String tasks[]; 
     // public Person(String name, int id) {
     //     this.name = name;

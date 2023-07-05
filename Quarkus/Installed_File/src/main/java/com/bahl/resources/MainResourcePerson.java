@@ -11,6 +11,7 @@ import com.bahl.util.Common;
 import com.bahl.util.Constant;
 
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -57,6 +58,7 @@ public class MainResourcePerson {
     @GET
     @Path("persons/size")
     public int numPersons() {
+        System.out.println("Entered size method");
         return Constant.persons.size();
     }
 
@@ -73,6 +75,23 @@ public class MainResourcePerson {
 
         // return Response.ok(Constant.persons.get(0).id).build();
         return Response.ok(Constant.persons).build();
+    }
+    
+    @DELETE
+    @Path("/deletepersons/{id}")
+    public Response deletePerson(@PathParam("id") int id) {
+        PersonDto personToDelete = Constant.persons.get(id - 1);
+        boolean removed = false;
+        System.out.println("Entered del method");
+        if (personToDelete.status){
+            removed = Constant.persons.remove(personToDelete);
+        }
+
+        if(removed){
+            return Response.noContent().build();
+        }
+        return Response.status(Response.Status.BAD_REQUEST).build();
+       
     }
 
     // TASKS START HERE
