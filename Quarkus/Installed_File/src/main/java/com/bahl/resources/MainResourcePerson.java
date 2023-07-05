@@ -69,6 +69,7 @@ public class MainResourcePerson {
     public Response addPerson(PersonDto newPerson) {
         newPerson.id = Constant.persons.size() + 1; // the id is related to the size, first Constant.persons id will be
                                                     // 1 and so on
+        newPerson.status = true;
         Constant.persons.add(newPerson);
         List<Object> objectListPersons = new ArrayList<>(Constant.persons);
         Common.writeInFile(objectListPersons, "PEOPLES");
