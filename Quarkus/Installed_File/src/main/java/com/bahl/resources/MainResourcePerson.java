@@ -1,7 +1,11 @@
 package com.bahl.resources;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.io.FileUtils;
 
 import com.bahl.dto.PersonDto;
 import com.bahl.dto.ProductDto;
@@ -19,6 +23,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+
 
 @Path("/to-do-list")
 public class MainResourcePerson {
@@ -95,9 +100,9 @@ public class MainResourcePerson {
     @Path("/deletepersons/{id}")
     public Response deletePerson(@PathParam("id") int id) {
         //System.out.println("Entered del method");
-        if(findById(id)!=-1)
+        if(findById(id, "persons")!=-1)
         {
-            PersonDto personToDelete = Constant.persons.get(findById(id));
+            PersonDto personToDelete = Constant.persons.get(findById(id, "persons"));
             boolean removed = false;
             
             if (personToDelete.status)
@@ -115,16 +120,32 @@ public class MainResourcePerson {
        
     }
 
-    public int findById(int id)
+    public int findById(int id, String category)
     {
-        int length = numPersons();
-        for(int i = 0; i< length; i++)
+        if(category.equals("persons"))
         {
-            if(Constant.persons.get(i).id == id)
+            int length = numPersons();
+            for(int i = 0; i< length; i++)
             {
-                return i;
+                if(Constant.persons.get(i).id == id)
+                {
+                    return i;
+                }
             }
         }
+
+        if(category.equals("tasks"))
+        {
+            int length = numTasks();
+            for(int i = 0; i< length; i++)
+            {
+                if(Constant.tasks.get(i).taskId == id)
+                {
+                    return i;
+                }
+            }
+        }
+        
 
         return -1;
     }
@@ -146,6 +167,29 @@ public class MainResourcePerson {
         return Response.ok(Constant.tasks).build();
     }
 
+    @DELETE
+    @Path("/deletetasks/{id}")
+    public Response deleteTask(@PathParam("id") int id) {
+        //System.out.println("Entered del method");
+        if(findById(id, "tasks")!=-1)
+        {
+            TaskDto taskToDelete = Constant.tasks.get(findById(id, "tasks"));
+            boolean removed = false;
+            
+            
+            removed = Constant.tasks.remove(taskToDelete);
+            
+
+            if(removed)
+            {
+                return Response.ok().build();
+            }
+        }
+        
+        return Response.status(Response.Status.BAD_REQUEST).build();
+       
+    }
+
     @GET
     @Path("/tasks")
     public List<TaskDto> tasksAvailable() {
@@ -163,7 +207,7 @@ public class MainResourcePerson {
     }
     
     @GET
-    @Path("tasks/size")
+    @Path("/tasks/size")
     public int numTasks(){
         return Constant.tasks.size();
     }
@@ -173,7 +217,7 @@ public class MainResourcePerson {
     // PRODUCTS
      
     @POST
-    @Path("add-product")
+    @Path("/add-product")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addProduct(ProductDto productDto) {
@@ -204,13 +248,13 @@ public class MainResourcePerson {
     }
     
     @GET
-    @Path("products/size")
+    @Path("/products/size")
     public int numProducts(){
         return Constant.products.size();
     }
 
     @POST
-    @Path("add-project")
+    @Path("/add-project")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addproject(ProjectDto projectDto) {
@@ -244,8 +288,47 @@ public class MainResourcePerson {
     }
     
     @GET
-    @Path("projects/size")
+    @Path("/projects/size")
     public int numprojects(){
         return Constant.projects.size();
     }
+
+    @Path("/upload/{name}")
+    @POST
+    // @Consumes({"text/plain,application/pdf"})
+    // @Produces({"text/plain,application/pdf"})
+
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response fileUpload(File file, @PathParam("name") String name) throws IOException {
+        try {
+            System.out.println("Path:" + file.getAbsolutePath());
+            System.out.println("Name:" + file.getName());
+            File dstDirFile = new File("Quarkus/Installed_File/src/main/resources/"+name);
+            //File rename = new File("Quarkus/Installed_File/src/main/resources/"+name+".txt");
+            //boolean flag = file.renameTo(rename);
+            System.out.println("After rename:" + file.getName());
+            FileUtils.copyFileToDirectory(file, dstDirFile);
+            return Response.ok(Constant.tasks).build();
+        } catch (Exception e) {
+            // TODO: handle exception
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+
+        // File copied = new File("src/test/resources/copiedWithIo.txt");
+        // try (
+        // InputStream in = new BufferedInputStream(
+        //     new FileInputStream(original));
+        // OutputStream out = new BufferedOutputStream(
+        //     new FileOutputStream(copied))) {
+    
+        //     byte[] buffer = new byte[1024];
+        //     int lengthRead;
+        //     while ((lengthRead = in.read(buffer)) > 0) {
+        //         out.write(buffer, 0, lengthRead);
+        //         out.flush();
+        //     }
+        
+    }
 }
+
