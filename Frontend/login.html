@@ -17,13 +17,48 @@
       function welcome() 
       {
 
-        var email = document.getElementById("floatingInput").value;
+        var id = document.getElementById("floatingInput").value;
         var password = document.getElementById("floatingPassword").value;
+        
+        datafetch(id, password);
+
+        // fetch('http://127.0.0.1:8080/to-do-list/persons/'+id)
+        //   .then((response) => response.json())
+        //   .then((json) => console.log(json));
+
 
         
-        console.log("redirecting "+email);
+        console.log("redirecting "+id);
         location.href="index.html";
         return false;
+        
+      }
+
+      function datafetch(id, password)
+      {
+        // const response = await fetch('http://127.0.0.1:8080/to-do-list/persons/'+id);
+   
+        // // Storing data in form of JSON
+        // var data = await response.json();
+        // console.log("Entered datafetch: "+data);
+
+
+        // var xhr = new XMLHttpRequest();
+        // xhr.open('GET', 'http://127.0.0.1:8080/to-do-list/persons/'+id+'.json', true);
+        // var data = JSON.parse(xhr.responseText);
+        // // Handle the JSON data
+        // console.log("Entered datafetch: "+data);
+
+        axios.get('http://127.0.0.1:8080/to-do-list/persons/'+id)
+          .then(response => {
+            // Handle the response data
+            console.log(response.data);
+          })
+          .catch(error => {
+            // Handle any errors
+            console.error('Error:', error);
+          });
+          
         
       }
     </script>
@@ -184,8 +219,8 @@
     <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
     <div class="form-floating">
-      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-      <label for="floatingInput">Email address</label>
+      <input type="id" class="form-control" id="floatingInput" placeholder="1234">
+      <label for="floatingInput">Personal ID</label>
     </div>
     <div class="form-floating">
       <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
