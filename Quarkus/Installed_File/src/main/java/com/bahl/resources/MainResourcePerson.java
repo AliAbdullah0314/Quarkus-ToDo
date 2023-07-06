@@ -1,11 +1,14 @@
 package com.bahl.resources;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import com.bahl.dto.PersonDto;
 import com.bahl.dto.ProductDto;
@@ -23,6 +26,17 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+// import javax.ws.rs.Consumes;
+// import javax.ws.rs.POST;
+// import javax.ws.rs.Path;
+// import javax.ws.rs.core.MediaType;
+// import javax.ws.rs.core.Response;
+// import java.io.File;
+// import java.io.FileOutputStream;
+// import java.io.IOException;
+// import java.io.InputStream;
 
 
 @Path("/to-do-list")
@@ -295,10 +309,9 @@ public class MainResourcePerson {
 
     @Path("/upload/{name}")
     @POST
-    // @Consumes({"text/plain,application/pdf"})
-    // @Produces({"text/plain,application/pdf"})
-
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Consumes({"application/pdf", "text/plain"})
+    //@Produces({"text/plain,application/pdf"})
+    //@Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response fileUpload(File file, @PathParam("name") String name) throws IOException {
         try {
             System.out.println("Path:" + file.getAbsolutePath());
@@ -313,6 +326,8 @@ public class MainResourcePerson {
             // TODO: handle exception
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
+
+        
 
 
         // File copied = new File("src/test/resources/copiedWithIo.txt");
@@ -330,5 +345,25 @@ public class MainResourcePerson {
         //     }
         
     }
+
+    // @POST
+    // @Consumes(MediaType.MULTIPART_FORM_DATA)
+    // public Response uploadPdf(@MultipartForm FormData formData) {
+    //     try {
+    //         savePdf(formData.getPdf(), "path/to/save/pdf.pdf");
+    //         return Response.ok().build();
+    //     } catch (IOException e) {
+    //         e.printStackTrace();
+    //         return Response.serverError().build();
+    //     }
+    // }
+
+    // private void savePdf(InputStream inputStream, String filePath) throws IOException {
+    //     byte[] buffer = new byte[inputStream.available()];
+    //     inputStream.read(buffer);
+    //     FileOutputStream outputStream = new FileOutputStream(new File(filePath));
+    //     outputStream.write(buffer);
+    //     outputStream.close();
+    // }
 }
 
