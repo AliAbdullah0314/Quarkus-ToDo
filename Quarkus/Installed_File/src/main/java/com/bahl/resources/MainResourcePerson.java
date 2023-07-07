@@ -1,15 +1,11 @@
 package com.bahl.resources;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
-import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
-
 import com.bahl.dto.PersonDto;
 import com.bahl.dto.ProductDto;
 import com.bahl.dto.ProjectDto;
@@ -26,17 +22,6 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
-import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
-// import javax.ws.rs.Consumes;
-// import javax.ws.rs.POST;
-// import javax.ws.rs.Path;
-// import javax.ws.rs.core.MediaType;
-// import javax.ws.rs.core.Response;
-// import java.io.File;
-// import java.io.FileOutputStream;
-// import java.io.IOException;
-// import java.io.InputStream;
 
 
 @Path("/to-do-list")
