@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
-
 import com.bahl.dto.PersonDto;
 import com.bahl.dto.ProductDto;
 import com.bahl.dto.ProjectDto;
@@ -295,10 +294,9 @@ public class MainResourcePerson {
 
     @Path("/upload/{name}")
     @POST
-    // @Consumes({"text/plain,application/pdf"})
-    // @Produces({"text/plain,application/pdf"})
-
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Consumes({"application/pdf", "text/plain"})
+    //@Produces({"text/plain,application/pdf"})
+    //@Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response fileUpload(File file, @PathParam("name") String name) throws IOException {
         try {
             System.out.println("Path:" + file.getAbsolutePath());
@@ -313,6 +311,8 @@ public class MainResourcePerson {
             // TODO: handle exception
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
+
+        
 
 
         // File copied = new File("src/test/resources/copiedWithIo.txt");
@@ -330,5 +330,25 @@ public class MainResourcePerson {
         //     }
         
     }
+
+    // @POST
+    // @Consumes(MediaType.MULTIPART_FORM_DATA)
+    // public Response uploadPdf(@MultipartForm FormData formData) {
+    //     try {
+    //         savePdf(formData.getPdf(), "path/to/save/pdf.pdf");
+    //         return Response.ok().build();
+    //     } catch (IOException e) {
+    //         e.printStackTrace();
+    //         return Response.serverError().build();
+    //     }
+    // }
+
+    // private void savePdf(InputStream inputStream, String filePath) throws IOException {
+    //     byte[] buffer = new byte[inputStream.available()];
+    //     inputStream.read(buffer);
+    //     FileOutputStream outputStream = new FileOutputStream(new File(filePath));
+    //     outputStream.write(buffer);
+    //     outputStream.close();
+    // }
 }
 
